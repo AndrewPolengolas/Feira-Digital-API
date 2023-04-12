@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://database-1.cpsxp1usj3r4.us-east-2.rds.amazonaws.com:3306/feira
+    username: admin
+    password: MySql2023
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+
+secret:
+  jwt:
+    SECRET_KEY: ${JWT_SECRET:FEIRA##DIGITAL}
