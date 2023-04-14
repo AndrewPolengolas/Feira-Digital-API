@@ -1,9 +1,12 @@
 package com.pi.feiradigital.controller.security;
 
+import com.pi.feiradigital.helper.DataHelper;
+import com.pi.feiradigital.helper.UserHelper;
 import com.pi.feiradigital.model.Role;
 import com.pi.feiradigital.model.Usuario;
-import com.pi.feiradigital.records.DadosAuth;
-import com.pi.feiradigital.records.UserRecord;
+import com.pi.feiradigital.model.records.DadosAuth;
+import com.pi.feiradigital.model.records.UserRecord;
+import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.repository.RoleRepository;
 import com.pi.feiradigital.repository.UsuarioRepository;
 import com.pi.feiradigital.service.jwt.TokenService;
@@ -11,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,12 +44,22 @@ public class AuthController {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private DataHelper dataHelper;
+
+    @Autowired
+    private UserHelper userHelper;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid DadosAuth dados) {
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.password());
 
         var authentication = manager.authenticate(authenticationToken);
+
+        if (!userHelper.userAtivo(authentication)){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         if (authentication.isAuthenticated()) {
             var tokenJWT = tokenService.gerarToken(authentication);
@@ -61,6 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar-user")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity adicionarSuser(@RequestBody UserRecord user) {
 
         Optional<Role> userRole = roleRepository.findByName(user.roleName());
@@ -72,6 +87,8 @@ public class AuthController {
         usuario.setRoles(roles);
         usuario.setLogin(user.login());
         usuario.setPassword(encoder.encode(user.password()));
+        usuario.setStatus(Status.ATIVO);
+        usuario.setDataIni(dataHelper.getDataHora());
 
         usuarioRepository.save(usuario);
 
@@ -79,6 +96,7 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar-role")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> cadastrarRole(@RequestBody Role role) {
 
         Optional<Role> userRole = roleRepository.findByName(role.getName());

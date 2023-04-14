@@ -34,6 +34,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/cliente/cadastro").permitAll()
+                        .requestMatchers("/vendedor/cadastro").permitAll()
                         .anyRequest().authenticated()
                         .and().addFilterBefore(authenticationSecurityFilter(), UsernamePasswordAuthenticationFilter.class)
                 );

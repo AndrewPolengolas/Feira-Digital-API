@@ -6,6 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
+  jackson:
+    date-format: dd-MM-yyyy HH:mm:ss
+    time-zone: Brazil/East
 
 secret:
   jwt:

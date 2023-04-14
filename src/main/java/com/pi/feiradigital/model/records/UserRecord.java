@@ -1,4 +1,4 @@
-package com.pi.feiradigital.records;
+package com.pi.feiradigital.model.records;
 
 public record UserRecord(String login,
                          String password,

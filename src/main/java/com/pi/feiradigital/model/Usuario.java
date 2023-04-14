@@ -1,13 +1,23 @@
 package com.pi.feiradigital.model;
 
+import com.pi.feiradigital.model.type.Status;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity(name = "Usuario")
-@Table(name = "usuarios")
+@Table(name = "usuarios", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "login"
+        })
+})
+@Getter
+@Setter
 public class Usuario {
 
     @Id
@@ -18,6 +28,15 @@ public class Usuario {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private LocalDateTime dataIni;
+
+    private LocalDateTime dataAlt;
+
+    private LocalDateTime dataFim;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -27,37 +46,4 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 }
