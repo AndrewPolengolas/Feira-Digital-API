@@ -48,7 +48,7 @@ public class AuthController {
         var authentication = manager.authenticate(authenticationToken);
 
         if (authentication.isAuthenticated()) {
-            var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+            var tokenJWT = tokenService.gerarToken(authentication);
 
             HashMap<String, String> token = new HashMap<>();
 
@@ -70,6 +70,7 @@ public class AuthController {
         Usuario usuario = new Usuario();
 
         usuario.setRoles(roles);
+        usuario.setLogin(user.login());
         usuario.setPassword(encoder.encode(user.password()));
 
         usuarioRepository.save(usuario);

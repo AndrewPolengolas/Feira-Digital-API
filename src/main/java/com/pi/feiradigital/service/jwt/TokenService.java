@@ -6,7 +6,9 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.pi.feiradigital.model.Usuario;
+import com.pi.feiradigital.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,13 +21,15 @@ public class TokenService {
     @Value("${secret.jwt.SECRET_KEY}")
     private String SECRET_KEY;
 
-    public String gerarToken(Usuario usuario){
+    public String gerarToken(Authentication authentication){
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         try {
             var algorithm = Algorithm.HMAC256(SECRET_KEY);
             return JWT.create()
                     .withIssuer("API Feira Digital")
-                    .withSubject(usuario.getLogin())
+                    .withSubject(userPrincipal.getUsername())
                     .withExpiresAt(dataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
@@ -35,7 +39,6 @@ public class TokenService {
 
     public String getSubject(String tokenJWT){
 
-        DecodedJWT decodedJWT;
         try {
             var algorithm = Algorithm.HMAC256(SECRET_KEY);
             return JWT.require(algorithm)

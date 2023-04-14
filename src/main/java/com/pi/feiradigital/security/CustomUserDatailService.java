@@ -16,11 +16,11 @@ public class CustomUserDatailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario user = usuarioRepository.findByLogin(username);
 
-        if(user != null){
-            throw new Error("Usuario já existe!");
-        }
+        Usuario user = usuarioRepository.findByLogin(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User Not Found with -> username or email : " + username)
+                );
 
         return UserPrincipal.create(user);
     }
