@@ -1,17 +1,16 @@
-package com.pi.feiradigital.service.system;
+package com.pi.feiradigital.service;
 
 import com.pi.feiradigital.helper.DataHelper;
 import com.pi.feiradigital.helper.FormatadorHelper;
 import com.pi.feiradigital.model.Cliente;
 import com.pi.feiradigital.model.Role;
 import com.pi.feiradigital.model.Usuario;
-import com.pi.feiradigital.model.Vendedor;
+import com.pi.feiradigital.model.records.ClienteRecord;
 import com.pi.feiradigital.model.records.UserRecord;
-import com.pi.feiradigital.model.records.VendedorRecord;
 import com.pi.feiradigital.model.type.Status;
+import com.pi.feiradigital.repository.ClienteRepository;
 import com.pi.feiradigital.repository.RoleRepository;
 import com.pi.feiradigital.repository.UsuarioRepository;
-import com.pi.feiradigital.repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +23,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class vendedorService {
+public class ClienteService {
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    private VendedorRepository vendedorRepository;
+    private ClienteRepository clienteRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -44,18 +43,18 @@ public class vendedorService {
     @Autowired
     private FormatadorHelper formatadorHelper;
 
-    public ResponseEntity<?> adicionar(VendedorRecord vendedorRecord){
+    public ResponseEntity<?> adicionar(ClienteRecord clienteRecord){
 
-        Usuario user = criarUser(vendedorRecord.userRecord());
+        Usuario user = criarUser(clienteRecord.userRecord());
 
-        Vendedor vendedor = criarVendedor(vendedorRecord, user);
+        Cliente cliente = criarCliente(clienteRecord, user);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private Usuario criarUser(UserRecord userRecord){
 
-        Optional<Role> userRole = roleRepository.findByName("VENDEDOR");
+        Optional<Role> userRole = roleRepository.findByName("CLIENTE");
         List<Role> roles = new ArrayList<>();
         roles.add(userRole.get());
 
@@ -72,27 +71,27 @@ public class vendedorService {
         return retorno;
     }
 
-    private Vendedor criarVendedor(VendedorRecord vendedorRecord, Usuario user){
+    private Cliente criarCliente(ClienteRecord clienteRecord, Usuario user){
 
-        Vendedor objVendedor = vendedorRepository.findByUsuario(user.getId());
+        Cliente objCliente = clienteRepository.findByUsuario(user.getId());
 
-        if (objVendedor != null){
+        if (objCliente != null){
             this.throwStatusException(HttpStatus.UNAUTHORIZED, "Não permitido");
         }
 
-        Vendedor vendedor = new Vendedor();
+        Cliente cliente = new Cliente();
 
-        vendedor.setNome(vendedorRecord.nome());
-        vendedor.setDocumento(formatadorHelper.formatarDocumentoBanco(vendedorRecord.documento()));
-        vendedor.setTipoDocumento(vendedorRecord.tipoDocumento());
-        vendedor.setCelular(formatadorHelper.formatarCelularBanco(vendedorRecord.celular()));
-        vendedor.setEmail(vendedorRecord.email());
-        vendedor.setTipoPessoa(vendedorRecord.tipoPessoa());
-        vendedor.setUsuario(user.getId());
-        vendedor.setDataIni(dataHelper.getDataHora());
-        vendedor.setStatus(Status.ATIVO);
+        cliente.setNome(clienteRecord.nome());
+        cliente.setDocumento(formatadorHelper.formatarDocumentoBanco(clienteRecord.documento()));
+        cliente.setTipoDocumento(clienteRecord.tipoDocumento());
+        cliente.setCelular(formatadorHelper.formatarCelularBanco(clienteRecord.celular()));
+        cliente.setEmail(clienteRecord.email());
+        cliente.setTipoPessoa(clienteRecord.tipoPessoa());
+        cliente.setUsuario(user.getId());
+        cliente.setDataIni(dataHelper.getDataHora());
+        cliente.setStatus(Status.ATIVO);
 
-        Vendedor retorno = vendedorRepository.save(vendedor);
+        Cliente retorno = clienteRepository.save(cliente);
 
         return retorno;
     }

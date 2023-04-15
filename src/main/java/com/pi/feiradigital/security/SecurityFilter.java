@@ -1,7 +1,6 @@
 package com.pi.feiradigital.security;
 
-import com.pi.feiradigital.repository.UsuarioRepository;
-import com.pi.feiradigital.service.jwt.TokenService;
+import com.pi.feiradigital.security.jwt.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

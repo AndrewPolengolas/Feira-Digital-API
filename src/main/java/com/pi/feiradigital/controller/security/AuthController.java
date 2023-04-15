@@ -9,7 +9,7 @@ import com.pi.feiradigital.model.records.UserRecord;
 import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.repository.RoleRepository;
 import com.pi.feiradigital.repository.UsuarioRepository;
-import com.pi.feiradigital.service.jwt.TokenService;
+import com.pi.feiradigital.security.jwt.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,8 @@
 package com.pi.feiradigital.controller.system;
 
 import com.pi.feiradigital.model.records.ClienteRecord;
-import com.pi.feiradigital.service.system.ClienteService;
+import com.pi.feiradigital.model.records.VendedorRecord;
+import com.pi.feiradigital.service.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class VendedorController {
 
     @Autowired
-    private ClienteService clienteService;
+    private VendedorService vendedorService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<?> adicionar(@RequestBody ClienteRecord clienteRecord){
-        return clienteService.adicionar(clienteRecord);
+    public ResponseEntity<?> adicionar(@RequestBody VendedorRecord vendedorRecord){
+        return vendedorService.adicionar(vendedorRecord);
     }
 }

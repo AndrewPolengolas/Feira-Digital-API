@@ -1,5 +1,6 @@
 package com.pi.feiradigital.model;
 
+import com.pi.feiradigital.model.type.Categoria;
 import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.model.type.TipoEstoque;
 import jakarta.persistence.*;
@@ -50,6 +51,9 @@ public class Produto {
     private String imagem;
 
     private Double preco;
+
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
 
     @ManyToMany(mappedBy = "produtoList", fetch = FetchType.LAZY)
     private List<Pedido> pedidoList;

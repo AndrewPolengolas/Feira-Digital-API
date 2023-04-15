@@ -1,7 +1,7 @@
 package com.pi.feiradigital.controller.system;
 
 import com.pi.feiradigital.model.records.ClienteRecord;
-import com.pi.feiradigital.service.system.ClienteService;
+import com.pi.feiradigital.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
