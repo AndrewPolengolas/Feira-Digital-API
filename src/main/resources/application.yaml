@@ -13,3 +13,6 @@ spring:
 secret:
   jwt:
     SECRET_KEY: ${JWT_SECRET:FEIRA##DIGITAL}
+
+server:
+  port: 8081
