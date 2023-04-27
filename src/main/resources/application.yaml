@@ -15,4 +15,4 @@ secret:
     SECRET_KEY: ${JWT_SECRET:FEIRA##DIGITAL}
 
 server:
-  port: 8081
+  port: 8082

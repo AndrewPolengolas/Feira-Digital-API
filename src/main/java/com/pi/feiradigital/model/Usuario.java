@@ -1,5 +1,6 @@
 package com.pi.feiradigital.model;
 
+import com.pi.feiradigital.model.type.Funcao;
 import com.pi.feiradigital.model.type.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private Funcao funcao;
 
     public Usuario() {
     }

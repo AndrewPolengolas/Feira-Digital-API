@@ -2,16 +2,24 @@ package com.pi.feiradigital.controller.security;
 
 import com.pi.feiradigital.helper.DataHelper;
 import com.pi.feiradigital.helper.UserHelper;
+import com.pi.feiradigital.model.Cliente;
 import com.pi.feiradigital.model.Role;
 import com.pi.feiradigital.model.Usuario;
+import com.pi.feiradigital.model.Vendedor;
 import com.pi.feiradigital.model.records.DadosAuth;
+import com.pi.feiradigital.model.records.Infos;
+import com.pi.feiradigital.model.records.UserData;
 import com.pi.feiradigital.model.records.UserRecord;
 import com.pi.feiradigital.model.type.Status;
+import com.pi.feiradigital.repository.ClienteRepository;
 import com.pi.feiradigital.repository.RoleRepository;
 import com.pi.feiradigital.repository.UsuarioRepository;
+import com.pi.feiradigital.repository.VendedorRepository;
+import com.pi.feiradigital.security.UserPrincipal;
 import com.pi.feiradigital.security.jwt.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,6 +56,12 @@ public class AuthController {
     @Autowired
     private UserHelper userHelper;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private VendedorRepository vendedorRepository;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid DadosAuth dados) {
 
@@ -62,11 +76,17 @@ public class AuthController {
         if (authentication.isAuthenticated()) {
             var tokenJWT = tokenService.gerarToken(authentication);
 
-            HashMap<String, String> token = new HashMap<>();
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-            token.put("token", tokenJWT);
+            Optional<Usuario> usuario = usuarioRepository.findByLogin(userPrincipal.getUsername());
 
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            UserData user = new UserData(
+                    tokenJWT,
+                    usuario.get().getId(),
+                    usuario.get().getLogin()
+            );
+
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -106,6 +126,32 @@ public class AuthController {
         Role retorno = roleRepository.save(role);
 
         return new ResponseEntity<>(retorno, HttpStatus.OK);
+    }
+
+    @PostMapping("infos")
+    public ResponseEntity<?> infos(HttpRequest request){
+        String id = request.getHeaders().getFirst("id");
+
+        Optional<Usuario> usuario = usuarioRepository.findById(Long.valueOf(id));
+
+        if (usuario.isPresent()){
+            switch (usuario.get().getFuncao()){
+                case CLIENTE -> {
+
+                    Cliente cliente = clienteRepository.findByUsuario(usuario.get().getId());
+
+                    return new ResponseEntity<>(new Infos(usuario.get().getId(), cliente.getNome(), cliente.getEmail()), HttpStatus.OK);
+                }
+                case VENDEDOR -> {
+
+                    Vendedor vendedor = vendedorRepository.findByUsuario(usuario.get().getId());
+
+                    return new ResponseEntity<>(new Infos(usuario.get().getId(), vendedor.getNome(), vendedor.getEmail()), HttpStatus.OK);
+                }
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

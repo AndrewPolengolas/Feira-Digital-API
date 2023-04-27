@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/cliente/cadastro").permitAll()
                         .requestMatchers("/vendedor/cadastro").permitAll()
+                        .requestMatchers("/produto/listar").permitAll()
                         .anyRequest().authenticated()
                         .and().addFilterBefore(authenticationSecurityFilter(), UsernamePasswordAuthenticationFilter.class)
                 )
@@ -54,6 +55,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*")); // origens permitidas
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // métodos permitidos
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token")); // headers permitidos
         configuration.setExposedHeaders(Arrays.asList("x-auth-token")); // headers expostos

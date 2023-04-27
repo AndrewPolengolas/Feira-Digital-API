@@ -41,7 +41,7 @@ public class ProdutoService {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<Produto> produtosPaging = null;
 
-        List<Produto> listaProdutos;
+        List<Produto> listaProdutos = null;
 
         Long total;
 
@@ -90,7 +90,7 @@ public class ProdutoService {
                 break;
         }
 
-        return new ResponseEntity<>(produtosPaging, HttpStatus.OK);
+        return new ResponseEntity<>(listaProdutos, HttpStatus.OK);
     }
 
     public ResponseEntity<?> adicionar(ProdutoRecord produtoRecord) {
