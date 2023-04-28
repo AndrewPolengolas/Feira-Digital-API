@@ -5,5 +5,6 @@ public enum Categoria {
     VEGETAIS,
     GRAOS,
     LEGUMES,
-    TEMPEROS
+    TEMPEROS,
+    VERDURA,
 }

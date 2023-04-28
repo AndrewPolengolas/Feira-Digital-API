@@ -4,6 +4,7 @@ import com.pi.feiradigital.model.type.Categoria;
 import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.model.type.TipoEstoque;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,13 @@ public class Produto {
     private String imagem;
 
     private Double preco;
+
+    private Double descQuantidade;
+
+    private Double pesoMedio;
+
+    @Size(max = 600)
+    private String descricao;
 
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
