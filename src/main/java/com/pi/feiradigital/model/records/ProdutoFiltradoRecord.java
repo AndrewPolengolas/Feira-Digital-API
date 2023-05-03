@@ -5,12 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.repository.query.Param;
 
 public record ProdutoFiltradoRecord(
-        @NotBlank Integer pagina,
-        @NotBlank TipoPreco tipoPreco,
+        Integer pagina,
+        TipoPreco tipoPreco,
         Double precoMin,
         Double precoMax,
         String categoria,
         String vendedor,
-        String nome
+        String nome,
+        String codigo
 ) {
 }

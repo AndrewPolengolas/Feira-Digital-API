@@ -25,6 +25,11 @@ public class ProdutoController {
         return produtoService.listarTodos(produtoFiltradoRecord);
     }
 
+    @PostMapping("/selecionar")
+    public ResponseEntity<?> selecionar(@RequestBody ProdutoFiltradoRecord produtoFiltradoRecord){
+        return produtoService.selecionar(produtoFiltradoRecord);
+    }
+
     @PostMapping("/adicionar")
     @PreAuthorize("hasRole('ADMIN') or hasRole('VENDEDOR')")
     public ResponseEntity<?> adicionar(@Valid @RequestBody ProdutoRecord produtoRecord){

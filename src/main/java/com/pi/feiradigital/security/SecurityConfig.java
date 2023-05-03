@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/cliente/cadastro").permitAll()
                         .requestMatchers("/vendedor/cadastro").permitAll()
-                        .requestMatchers("/produto/listar").permitAll()
+                        .requestMatchers("/produto/listar", "/produto/selecionar").permitAll()
                         .anyRequest().authenticated()
                         .and().addFilterBefore(authenticationSecurityFilter(), UsernamePasswordAuthenticationFilter.class)
                 )

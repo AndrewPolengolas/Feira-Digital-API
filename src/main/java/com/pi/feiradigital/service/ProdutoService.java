@@ -33,6 +33,19 @@ public class ProdutoService {
     @Autowired
     private DataHelper dataHelper;
 
+    public ResponseEntity<?> selecionar(ProdutoFiltradoRecord filtro) {
+
+        Produto produto = produtoRepository.findByStatusAndCodigo(
+                Status.ATIVO,
+                filtro.codigo()
+        );
+
+        if (produto == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(produto, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> listarTodos(ProdutoFiltradoRecord filtro) {
 
         Integer pageNo = filtro.pagina() - 1;
