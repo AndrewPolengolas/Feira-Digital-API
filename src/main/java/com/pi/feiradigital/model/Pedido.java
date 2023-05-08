@@ -52,5 +52,5 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    private Long Vendedor;
+    private String Vendedores;
 }

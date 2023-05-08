@@ -1,5 +1,6 @@
 package com.pi.feiradigital.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pi.feiradigital.model.type.Categoria;
 import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.model.type.TipoEstoque;
@@ -65,4 +66,8 @@ public class Produto {
 
     @ManyToMany(mappedBy = "produtoList", fetch = FetchType.LAZY)
     private List<Pedido> pedidoList;
+
+    @JsonInclude
+    @Transient
+    private Double valorTotal;
 }
