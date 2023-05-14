@@ -82,9 +82,9 @@ public class ClienteService {
         Cliente cliente = new Cliente();
 
         cliente.setNome(clienteRecord.nome());
-        cliente.setDocumento(formatadorHelper.formatarDocumentoBanco(clienteRecord.documento()));
-        cliente.setTipoDocumento(clienteRecord.tipoDocumento());
-        cliente.setCelular(formatadorHelper.formatarCelularBanco(clienteRecord.celular()));
+        cliente.setDocumento(clienteRecord.documento() != null ? formatadorHelper.formatarDocumentoBanco(clienteRecord.documento()) : null);
+        cliente.setTipoDocumento(clienteRecord.tipoDocumento() != null ? clienteRecord.tipoDocumento() : null);
+        cliente.setCelular(clienteRecord.celular() != null ? formatadorHelper.formatarCelularBanco(clienteRecord.celular()) : null);
         cliente.setEmail(clienteRecord.email());
         cliente.setTipoPessoa(clienteRecord.tipoPessoa());
         cliente.setUsuario(user.getId());
