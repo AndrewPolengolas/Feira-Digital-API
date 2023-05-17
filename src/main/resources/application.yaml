@@ -9,6 +9,14 @@ spring:
   jackson:
     date-format: dd-MM-yyyy HH:mm:ss
     time-zone: Brazil/East
+  webflux:
+    cors:
+      allowed-origins: "*"
+      max-age: 3600
+      allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+      allowed-headers: Authorization, Content-Type
+      allow-credentials: true
+
 
 secret:
   jwt:
