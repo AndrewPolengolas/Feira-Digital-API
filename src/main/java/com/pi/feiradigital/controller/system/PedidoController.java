@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pedido")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/adicionar")
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<?> criarPedido(@RequestBody PedidoRecord pedidoRecord) {

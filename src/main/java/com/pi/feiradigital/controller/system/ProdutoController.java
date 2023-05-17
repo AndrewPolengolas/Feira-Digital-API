@@ -8,23 +8,23 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/produto")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/listar")
     public ResponseEntity<?> listarTodos(@RequestBody ProdutoFiltradoRecord produtoFiltradoRecord){
         return produtoService.listarTodos(produtoFiltradoRecord);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/selecionar")
     public ResponseEntity<?> selecionar(@RequestBody ProdutoFiltradoRecord produtoFiltradoRecord){
         return produtoService.selecionar(produtoFiltradoRecord);
