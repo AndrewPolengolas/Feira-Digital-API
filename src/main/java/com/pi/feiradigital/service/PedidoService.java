@@ -11,6 +11,7 @@ import com.pi.feiradigital.model.type.Status;
 import com.pi.feiradigital.model.type.StatusPedido;
 import com.pi.feiradigital.repository.ClienteRepository;
 import com.pi.feiradigital.repository.ProdutoRepository;
+import com.pi.feiradigital.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -23,7 +24,7 @@ import java.util.List;
 public class PedidoService {
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private PedidoRepository pedidoRepository;
 
     @Autowired
     private UserHelper userHelper;
@@ -65,7 +66,9 @@ public class PedidoService {
         pedido.setCliente(cliente);
         pedido.setVendedores(vendedores);
 
-        return new ResponseEntity<>(StatusPedido.EM_ANDAMENTO, HttpStatus.OK);
+        Pedido retorno = pedidoRepository.save(pedido);
+
+        return new ResponseEntity<>(retorno.getId(), HttpStatus.OK);
     }
 
 }
