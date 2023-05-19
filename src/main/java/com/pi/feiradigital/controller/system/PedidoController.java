@@ -18,7 +18,7 @@ public class PedidoController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/adicionar")
-    @PreAuthorize("hasRole('CLIENTE')")
+    //@PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<?> criarPedido(@RequestBody PedidoRecord pedidoRecord) {
         return pedidoService.adicionar(pedidoRecord);
     }

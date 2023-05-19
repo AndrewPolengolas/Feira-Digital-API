@@ -37,16 +37,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().cors()
                 .and().authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/cliente/cadastro").permitAll()
                         .requestMatchers("/vendedor/cadastro").permitAll()
+                        .requestMatchers("/pedido/adicionar").permitAll()
                         .requestMatchers("/produto/listar", "/produto/selecionar").permitAll()
+                        .requestMatchers("/enderecoapi/adicionar").permitAll()
                         .anyRequest().authenticated()
                         .and().addFilterBefore(authenticationSecurityFilter(), UsernamePasswordAuthenticationFilter.class)
-                );
+                ).cors();
 
         return http.build();
     }

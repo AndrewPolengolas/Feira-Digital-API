@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    @ManyToMany(mappedBy = "produtoList", fetch = FetchType.LAZY)
-    private List<Pedido> pedidoList;
+    // @ManyToMany(mappedBy = "produtoList", fetch = FetchType.LAZY)
+    // private List<Pedido> pedidoList;
 
     @JsonInclude
     @Transient
